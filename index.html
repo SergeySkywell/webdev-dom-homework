@@ -64,10 +64,12 @@
   const commentsEl = document.querySelector(".comments")
 
   addFormButtonEl.addEventListener('click', function (e) {
-    // body
-  });
+    if (addFormNameEl.value.trim() == "" || addFormTextEl.value.trim() == "") {
+      return
+    }
 
-  console.log("It works!");
+    console.log('Всё работает!')
+  });
 </script>
 
 </html>
