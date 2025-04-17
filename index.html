@@ -70,6 +70,21 @@
 
     console.log('Всё работает!')
   });
+
+  let dateNow = new Date()
+
+  let year = dateNow.getFullYear();
+  let month = dateNow.getMonth() + 1;
+  let day = dateNow.getDate();
+
+  let formattedDay = String(day).padStart(2, '0');
+  let formattedMonth = String(month).padStart(2, '0');
+  let shortYear = String(year).slice(-2);
+
+  let hours = String(dateNow.getHours()).padStart(2, '0');
+  let minutes = String(dateNow.getMinutes()).padStart(2, '0');
+
+  let fullDate = `${formattedDay}.${formattedMonth}.${shortYear} ${hours}:${minutes}`;
 </script>
 
 </html>
