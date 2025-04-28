@@ -97,27 +97,17 @@
 
     const fullDate = formatDate();
 
-    const commentHtml = `
-    <li class="comment">
-        <div class="comment-header">
-          <div>${addFormNameEl.value.trim()}</div>
-          <div>${fullDate}</div>
-        </div>
-        <div class="comment-body">
-          <div class="comment-text">
-            ${addFormTextEl.value.trim()}
-          </div>
-        </div>
-        <div class="comment-footer">
-          <div class="likes">
-            <span class="likes-counter">0</span>
-            <button class="like-button"></button>
-          </div>
-        </div>
-      </li>
-  `
+    const newComment = {
+      name: addFormNameEl.value.trim(),
+      date: fullDate,
+      text: addFormTextEl.value.trim(),
+      likes: 0,
+      isLiked: false
+    }
 
-    commentsEl.innerHTML += commentHtml;
+    comments.push(newComment);
+
+    renderComments();
 
     addFormNameEl.value = "";
     addFormTextEl.value = "";
