@@ -72,6 +72,22 @@
       `
       commentsEl.innerHTML += commentHtml;
     }
+
+    const likeButtons = document.querySelectorAll('.like-button')
+
+    likeButtons.forEach((button, index) => {
+      button.addEventListener('click', function () {
+        comments[index].isLiked = !comments[index].isLiked;
+
+        if (comments[index].isLiked) {
+          comments[index].likes++;
+        } else {
+          comments[index].likes--;
+        }
+
+        renderComments();
+      });
+    });
   }
 
   renderComments();
