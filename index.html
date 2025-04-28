@@ -10,7 +10,7 @@
 <body>
   <div class="container">
     <ul class="comments">
-      
+
     </ul>
     <div class="add-form">
       <input type="text" class="add-form-name" placeholder="Введите ваше имя" />
@@ -44,6 +44,35 @@
     likes: 75,
     isLiked: true
   }];
+
+  const renderComments = () => {
+    commentsEl.innerHTML = "";
+
+    for (const comment of comments) {
+      const commentHtml = `
+        <li class="comment">
+        <div class="comment-header">
+          <div>${comment.name}</div>
+          <div>${comment.date}</div>
+        </div>
+        <div class="comment-body">
+          <div class="comment-text">
+            ${comment.text}
+          </div>
+        </div>
+        <div class="comment-footer">
+          <div class="likes">
+            <span class="likes-counter">${comment.likes}</span>
+            <button class="like-button"></button>
+          </div>
+        </div>
+      </li>
+      `
+      commentsEl.innerHTML += commentHtml;
+    }
+  }
+
+  renderComments();
 
   function formatDate() {
     const dateNow = new Date();
