@@ -128,9 +128,9 @@
     const fullDate = formatDate();
 
     const newComment = {
-      name: addFormNameEl.value.trim(),
+      name: addFormNameEl.value.trim().replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
       date: fullDate,
-      text: addFormTextEl.value.trim(),
+      text: addFormTextEl.value.trim().replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
       likes: 0,
       isLiked: false
     }
