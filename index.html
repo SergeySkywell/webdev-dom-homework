@@ -73,6 +73,19 @@
       commentsEl.innerHTML += commentHtml;
     }
 
+    const commentElements = document.querySelectorAll('.comment');
+
+    commentElements.forEach((commentElement) => {
+      commentElement.addEventListener('click', () => {
+        const nameEl = commentElement.querySelector('.comment-header div:first-child');
+        const textEl = commentElement.querySelector('.comment-text');
+
+        const quoteText = `> ${nameEl.textContent}\n> ${textEl.textContent}\n\n`;
+
+        addFormTextEl.value = quoteText;
+      });
+    });
+
     const likeButtons = document.querySelectorAll('.like-button')
 
     likeButtons.forEach((button, index) => {
