@@ -89,7 +89,8 @@
     const likeButtons = document.querySelectorAll('.like-button')
 
     likeButtons.forEach((button, index) => {
-      button.addEventListener('click', function () {
+      button.addEventListener('click', function (event) {
+        event.stopPropagation();
         comments[index].isLiked = !comments[index].isLiked;
 
         if (comments[index].isLiked) {
@@ -119,7 +120,7 @@
     return `${day}.${month}.${shortYear} ${hours}:${minutes}`;
   }
 
-  addFormButtonEl.addEventListener('click', function (e) {
+  addFormButtonEl.addEventListener('click', function () {
     if (addFormNameEl.value.trim() === "" || addFormTextEl.value.trim() === "") {
       return;
     }
