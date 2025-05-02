@@ -1,0 +1,120 @@
+"use strict";
+
+const addFormNameEl = document.querySelector(".add-form-name");
+const addFormTextEl = document.querySelector(".add-form-text");
+const addFormButtonEl = document.querySelector(".add-form-button");
+const commentsEl = document.querySelector(".comments");
+
+const comments = [{
+  name: "Глеб Фокин",
+  date: "12.02.22 12:18",
+  text: "Это будет первый комментарий на этой странице",
+  likes: 3,
+  isLiked: false
+},
+{
+  name: "Варвара Н.",
+  date: "13.02.22 19:22",
+  text: "Мне нравится как оформлена эта страница! ❤",
+  likes: 75,
+  isLiked: true
+}];
+
+const renderComments = () => {
+  commentsEl.innerHTML = "";
+
+  for (const comment of comments) {
+    const likeButtonClass = comment.isLiked ? "like-button -active-like" : "like-button";
+
+    const commentHtml = `
+      <li class="comment">
+      <div class="comment-header">
+        <div>${comment.name}</div>
+        <div>${comment.date}</div>
+      </div>
+      <div class="comment-body">
+        <div class="comment-text">
+          ${comment.text}
+        </div>
+      </div>
+      <div class="comment-footer">
+        <div class="likes">
+          <span class="likes-counter">${comment.likes}</span>
+          <button class="${likeButtonClass}"></button>
+        </div>
+      </div>
+    </li>
+    `
+    commentsEl.innerHTML += commentHtml;
+  }
+
+  const commentElements = document.querySelectorAll('.comment');
+
+  commentElements.forEach((commentElement) => {
+    commentElement.addEventListener('click', () => {
+      const nameEl = commentElement.querySelector('.comment-header div:first-child');
+      const textEl = commentElement.querySelector('.comment-text');
+
+      const quoteText = `> ${nameEl.textContent}\n> ${textEl.textContent}\n\n`;
+
+      addFormTextEl.value = quoteText;
+    });
+  });
+
+  const likeButtons = document.querySelectorAll('.like-button')
+
+  likeButtons.forEach((button, index) => {
+    button.addEventListener('click', function (event) {
+      event.stopPropagation();
+      comments[index].isLiked = !comments[index].isLiked;
+
+      if (comments[index].isLiked) {
+        comments[index].likes++;
+      } else {
+        comments[index].likes--;
+      }
+
+      renderComments();
+    });
+  });
+}
+
+renderComments();
+
+function formatDate() {
+  const dateNow = new Date();
+
+  const year = dateNow.getFullYear();
+  const month = String(dateNow.getMonth() + 1).padStart(2, '0');
+  const day = String(dateNow.getDate()).padStart(2, '0');
+  const shortYear = String(year).slice(-2);
+
+  const hours = String(dateNow.getHours()).padStart(2, '0');
+  const minutes = String(dateNow.getMinutes()).padStart(2, '0');
+
+  return `${day}.${month}.${shortYear} ${hours}:${minutes}`;
+}
+
+addFormButtonEl.addEventListener('click', function () {
+  if (addFormNameEl.value.trim() === "" || addFormTextEl.value.trim() === "") {
+    return;
+  }
+
+  const fullDate = formatDate();
+
+  const newComment = {
+    name: addFormNameEl.value.trim().replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+    date: fullDate,
+    text: addFormTextEl.value.trim().replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+    likes: 0,
+    isLiked: false
+  }
+
+  comments.push(newComment);
+
+  renderComments();
+
+  addFormNameEl.value = "";
+  addFormTextEl.value = "";
+  addFormNameEl.focus();
+});
