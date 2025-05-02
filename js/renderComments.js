@@ -1,14 +1,15 @@
 import { commentsEl, addFormTextEl } from './domElements.js'
-import { comments } from './comments.js';
-
+import { comments } from './comments.js'
 
 export const renderComments = () => {
-    commentsEl.innerHTML = "";
-  
+    commentsEl.innerHTML = ''
+
     for (const comment of comments) {
-      const likeButtonClass = comment.isLiked ? "like-button -active-like" : "like-button";
-  
-      const commentHtml = `
+        const likeButtonClass = comment.isLiked
+            ? 'like-button -active-like'
+            : 'like-button'
+
+        const commentHtml = `
         <li class="comment">
         <div class="comment-header">
           <div>${comment.name}</div>
@@ -27,36 +28,38 @@ export const renderComments = () => {
         </div>
       </li>
       `
-      commentsEl.innerHTML += commentHtml;
+        commentsEl.innerHTML += commentHtml
     }
-  
-    const commentElements = document.querySelectorAll('.comment');
-  
+
+    const commentElements = document.querySelectorAll('.comment')
+
     commentElements.forEach((commentElement) => {
-      commentElement.addEventListener('click', () => {
-        const nameEl = commentElement.querySelector('.comment-header div:first-child');
-        const textEl = commentElement.querySelector('.comment-text');
-  
-        const quoteText = `> ${nameEl.textContent}\n> ${textEl.textContent}\n\n`;
-  
-        addFormTextEl.value = quoteText;
-      });
-    });
-  
+        commentElement.addEventListener('click', () => {
+            const nameEl = commentElement.querySelector(
+                '.comment-header div:first-child',
+            )
+            const textEl = commentElement.querySelector('.comment-text')
+
+            const quoteText = `> ${nameEl.textContent}\n> ${textEl.textContent}\n\n`
+
+            addFormTextEl.value = quoteText
+        })
+    })
+
     const likeButtons = document.querySelectorAll('.like-button')
-  
+
     likeButtons.forEach((button, index) => {
-      button.addEventListener('click', function (event) {
-        event.stopPropagation();
-        comments[index].isLiked = !comments[index].isLiked;
-  
-        if (comments[index].isLiked) {
-          comments[index].likes++;
-        } else {
-          comments[index].likes--;
-        }
-  
-        renderComments();
-      });
-    });
-  }
+        button.addEventListener('click', function (event) {
+            event.stopPropagation()
+            comments[index].isLiked = !comments[index].isLiked
+
+            if (comments[index].isLiked) {
+                comments[index].likes++
+            } else {
+                comments[index].likes--
+            }
+
+            renderComments()
+        })
+    })
+}
