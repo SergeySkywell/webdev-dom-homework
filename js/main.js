@@ -1,7 +1,9 @@
 import { comments } from './comments.js'
 import { renderComments } from './renderComments.js'
-import { initAddComment } from './addComment.js'
-import { formatDate } from './formatDate.js'
+import { getComments } from './api.js'
 
-initAddComment({ comments, renderComments, formatDate })
-renderComments()
+getComments().then((loadedComments) => {
+    comments.length = 0
+    comments.push(...loadedComments)
+    renderComments()
+})
