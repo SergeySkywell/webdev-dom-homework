@@ -2,7 +2,7 @@ import { formatDateFromISO } from './utils/formatDateFromISO.js'
 
 export async function getComments() {
     const response = await fetch(
-        'https://wedev-api.sky.pro/api/v1/:laletin-sergey/comments',
+        'https://wedev-api.sky.pro/api/v1/laletin-sergey/comments',
     )
     const data = await response.json()
     return data.comments.map((comment) => ({
@@ -10,6 +10,25 @@ export async function getComments() {
         text: comment.text,
         date: formatDateFromISO(comment.date),
         likes: comment.likes,
-        isLikedL: comment.isLiked,
+        isLiked: comment.isLiked,
     }))
+}
+
+export async function postComment(name, text) {
+    const response = await fetch(
+        'https://wedev-api.sky.pro/api/v1/laletin-sergey/comments',
+        {
+            method: 'POST',
+            body: JSON.stringify({ name, text }),
+        },
+    )
+
+    const result = await response.json()
+
+    if (!response.ok) {
+        console.error('Ошибка сервера:', result)
+        throw new Error(result.error || 'Failed to post comment')
+    }
+
+    return result
 }
