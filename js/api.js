@@ -1,34 +1,32 @@
 import { formatDateFromISO } from './utils/formatDateFromISO.js'
 
-export async function getComments() {
-    const response = await fetch(
-        'https://wedev-api.sky.pro/api/v1/laletin-sergey/comments',
-    )
-    const data = await response.json()
-    return data.comments.map((comment) => ({
-        name: comment.author.name,
-        text: comment.text,
-        date: formatDateFromISO(comment.date),
-        likes: comment.likes,
-        isLiked: comment.isLiked,
-    }))
+export function getComments() {
+    return fetch('https://wedev-api.sky.pro/api/v1/laletin-sergey/comments')
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+            return data.comments.map((comment) => ({
+                name: comment.author.name,
+                text: comment.text,
+                date: formatDateFromISO(comment.date),
+                likes: comment.likes,
+                isLiked: comment.isLiked,
+            }))
+        })
 }
 
-export async function postComment(name, text) {
-    const response = await fetch(
-        'https://wedev-api.sky.pro/api/v1/laletin-sergey/comments',
-        {
-            method: 'POST',
-            body: JSON.stringify({ name, text }),
-        },
-    )
-
-    const result = await response.json()
-
-    if (!response.ok) {
-        console.error('Ошибка сервера:', result)
-        throw new Error(result.error || 'Failed to post comment')
-    }
-
-    return result
+export function postComment(name, text) {
+    return fetch('https://wedev-api.sky.pro/api/v1/laletin-sergey/comments', {
+        method: 'POST',
+        body: JSON.stringify({ name, text }),
+    }).then((response) => {
+        if (response.ok) {
+            return response.json()
+        } else {
+            return response.json().then((data) => {
+                throw new Error(data.error || 'Unknown error')
+            })
+        }
+    })
 }

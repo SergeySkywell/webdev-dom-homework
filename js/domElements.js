@@ -2,3 +2,7 @@ export const addFormNameEl = document.querySelector('.add-form-name')
 export const addFormTextEl = document.querySelector('.add-form-text')
 export const addFormButtonEl = document.querySelector('.add-form-button')
 export const commentsEl = document.querySelector('.comments')
+export const loadingTextEl = document.querySelector('.loading-text')
+export const formEl = document.querySelector('.add-form')
+
+
