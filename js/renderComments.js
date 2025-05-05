@@ -1,13 +1,16 @@
 import { commentsEl, addFormTextEl } from './domElements.js'
 import { comments } from './comments.js'
+import { delay } from './utils/delay.js'
 
 export const renderComments = () => {
     commentsEl.innerHTML = ''
 
     for (const comment of comments) {
-        const likeButtonClass = comment.isLiked
-            ? 'like-button -active-like'
-            : 'like-button'
+        const likeButtonClass = comment.isLikeLoading
+            ? 'like-button -loading-like'
+            : comment.isLiked
+              ? 'like-button -active-like'
+              : 'like-button'
 
         const commentHtml = `
         <li class="comment">
@@ -23,7 +26,7 @@ export const renderComments = () => {
         <div class="comment-footer">
           <div class="likes">
             <span class="likes-counter">${comment.likes}</span>
-            <button class="${likeButtonClass}"></button>
+            <button class="${likeButtonClass}"><span class="like-icon"></span></button>
           </div>
         </div>
       </li>
@@ -51,15 +54,20 @@ export const renderComments = () => {
     likeButtons.forEach((button, index) => {
         button.addEventListener('click', function (event) {
             event.stopPropagation()
-            comments[index].isLiked = !comments[index].isLiked
-
-            if (comments[index].isLiked) {
-                comments[index].likes++
-            } else {
-                comments[index].likes--
-            }
-
+            comments[index].isLikeLoading = true
             renderComments()
+            delay(2000).then(() => {
+                comments[index].isLikeLoading = false
+                comments[index].isLiked = !comments[index].isLiked
+
+                if (comments[index].isLiked) {
+                    comments[index].likes++
+                } else {
+                    comments[index].likes--
+                }
+
+                renderComments()
+            })
         })
     })
 }
