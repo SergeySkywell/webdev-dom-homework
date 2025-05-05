@@ -4,5 +4,4 @@ export const addFormButtonEl = document.querySelector('.add-form-button')
 export const commentsEl = document.querySelector('.comments')
 export const loadingTextEl = document.querySelector('.loading-text')
 export const formEl = document.querySelector('.add-form')
-
-
+export const addingCommentEl = document.querySelector('loading-adding')

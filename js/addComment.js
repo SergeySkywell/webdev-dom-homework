@@ -1,5 +1,11 @@
 import { postComment } from './api.js'
-import { addFormButtonEl, addFormNameEl, addFormTextEl } from './domElements.js'
+import {
+    addFormButtonEl,
+    addFormNameEl,
+    addFormTextEl,
+    addingCommentEl,
+    formEl,
+} from './domElements.js'
 import { getComments } from './api.js'
 
 export function initAddComment({ comments, renderComments }) {
@@ -19,6 +25,9 @@ export function initAddComment({ comments, renderComments }) {
             .replaceAll('<', '&lt;')
             .replaceAll('>', '&gt;')
 
+        formEl.classList.add('hidden')
+        addingCommentEl.classList.remove('hidden')
+
         try {
             await postComment(name, text)
 
@@ -26,13 +35,15 @@ export function initAddComment({ comments, renderComments }) {
             comments.length = 0
             comments.push(...loadedComments)
             renderComments()
-
-            addFormNameEl.value = ''
-            addFormTextEl.value = ''
-            addFormNameEl.focus()
         } catch (error) {
             alert('Ошибка при добавлении комментария. Попробуйте снова.')
             console.error(error)
+        } finally {
+            formEl.classList.remove('hidden')
+            addingCommentEl.classList.add('hidden')
+            addFormNameEl.value = ''
+            addFormTextEl.value = ''
+            addFormNameEl.focus()
         }
     })
 }
