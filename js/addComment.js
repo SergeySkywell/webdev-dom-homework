@@ -27,8 +27,6 @@ export function initAddComment({ comments, renderComments }) {
 
         if (name.length < 3 || text.length < 3) {
             alert('Имя и комментарий должны быть не короче 3 символов')
-            addFormNameEl.value = ''
-            addFormTextEl.value = ''
             return
         }
 
@@ -43,7 +41,16 @@ export function initAddComment({ comments, renderComments }) {
             comments.push(...loadedComments)
             renderComments()
         } catch (error) {
-            alert('Ошибка при добавлении комментария. Попробуйте снова.')
+            if (error.code === 400) {
+                alert('Имя и комментарий должны быть не короче 3 символов')
+            } else if (error.code === 500) {
+                alert('Сервер сломался, попробуй позже')
+            } else if (error.code === 'network') {
+                alert('Кажется, у вас сломался интернет, попробуйте позже')
+            } else {
+                alert('Неизвестная ошибка')
+            }
+
             console.error(error)
         } finally {
             formEl.classList.remove('hidden')
