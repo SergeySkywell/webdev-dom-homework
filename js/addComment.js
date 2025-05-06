@@ -25,6 +25,13 @@ export function initAddComment({ comments, renderComments }) {
             .replaceAll('<', '&lt;')
             .replaceAll('>', '&gt;')
 
+        if (name.length < 3 || text.length < 3) {
+            alert('Имя и комментарий должны быть не короче 3 символов')
+            addFormNameEl.value = ''
+            addFormTextEl.value = ''
+            return
+        }
+
         formEl.classList.add('hidden')
         addingCommentEl.classList.remove('hidden')
 
